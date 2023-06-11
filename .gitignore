@@ -162,4 +162,4 @@ cython_debug/
 # mpg and align files
 .mpg
 .align
-.zip
+*.zip
