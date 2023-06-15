@@ -11,7 +11,6 @@ num_to_char = tf.keras.layers.StringLookup(
 )
 
 def load_video(path:str) -> List[float]: 
-    #print(path)
     cap = cv2.VideoCapture(path)
     frames = []
     for _ in range(int(cap.get(cv2.CAP_PROP_FRAME_COUNT))): 
@@ -25,7 +24,6 @@ def load_video(path:str) -> List[float]:
     return tf.cast((frames - mean), tf.float32) / std
     
 def load_alignments(path:str) -> List[str]: 
-    #print(path)
     with open(path, 'r') as f: 
         lines = f.readlines() 
     tokens = []
@@ -37,8 +35,7 @@ def load_alignments(path:str) -> List[str]:
 
 def load_data(path: str): 
     path = bytes.decode(path.numpy())
-    file_name = path.split('/')[-1].split('.')[0]
-    # File name splitting for windows
+    # File path splitting for Windows
     file_name = path.split('\\')[-1].split('.')[0]
     video_path = os.path.join('..','data','s1',f'{file_name}.mpg')
     alignment_path = os.path.join('..','data','alignments','s1',f'{file_name}.align')
