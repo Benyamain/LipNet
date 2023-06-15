@@ -13,6 +13,7 @@ with st.sidebar:
     st.title("LipNet")
     st.info("Focuses on decoding text from a speaker's mouth movements. By using deep learning techniques and advanced models, the project achieves impressive accuracy in mapping video frames to text.")
 
+st.title('LipNet')
 # Retrieve the list of videos
 videos = os.listdir(os.path.join('..', 'data', 's1'))
 selected_video = st.selectbox('Pick a video', videos)
@@ -22,6 +23,7 @@ col1, col2 = st.columns(2)
 
 if videos:
     with col1:
+        st.info('Chosen video:')
         file_path = os.path.join('..', 'data', 's1', selected_video)
         os.system(f'ffmpeg -i {file_path} -vcodec libx264 test_video.mp4 -y')
 
