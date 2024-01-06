@@ -23,15 +23,23 @@ def load_video(path:str) -> List[float]:
     std = tf.math.reduce_std(tf.cast(frames, tf.float32))
     return tf.cast((frames - mean), tf.float32) / std
     
-def load_alignments(path:str) -> List[str]: 
-    with open(path, 'r') as f: 
-        lines = f.readlines() 
+def load_alignments(path: str) -> List[str]:
+    with open(path, 'r') as f:
+        lines = f.readlines()
     tokens = []
     for line in lines:
         line = line.split()
-        if line[2] != 'sil': 
-            tokens = [*tokens,' ',line[2]]
-    return char_to_num(tf.reshape(tf.strings.unicode_split(tokens, input_encoding='UTF-8'), (-1)))[1:]
+        if line[2] != 'sil':
+            tokens = [*tokens, ' ', line[2]]
+    
+    # Convert tokens to a RaggedTensor
+    ragged_tokens = tf.strings.unicode_split(tokens, input_encoding='UTF-8')
+    
+    # Convert the RaggedTensor to a dense tensor
+    dense_tokens = ragged_tokens.to_tensor(default_value='')
+    
+    # Apply char_to_num and slice the tensor
+    return char_to_num(dense_tokens)[1:]
 
 def load_data(path: str): 
     path = bytes.decode(path.numpy())
